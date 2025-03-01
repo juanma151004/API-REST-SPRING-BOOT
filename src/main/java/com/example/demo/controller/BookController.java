@@ -29,11 +29,11 @@ public class BookController {
 
     // Endpoint to save a book
     @PostMapping("/save")
-    public String save(@RequestBody Book libro){
-        if (libro.getPerson() == null) {
-            libro.setPerson(null); // Ensure it does not attempt to save an empty person
+    public String save(@RequestBody Book book){
+        if (book.getPerson() == null) {
+            book.setPerson(null); // Ensure it does not attempt to save an empty person
         }
-        repo.save(libro);
+        repo.save(book);
         return "saved";
     }
 }
