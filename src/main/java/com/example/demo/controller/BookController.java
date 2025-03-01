@@ -7,10 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.models.Book;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.service.BookService;
 
 @RestController
 @RequestMapping("/demo/books")
 public class BookController {
+
+    @Autowired
+    private BookService bookService;
 
     @Autowired
     private BookRepository repo;

@@ -2,13 +2,11 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.models.Person;
 import com.example.demo.repository.PersonRepository;
-
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 import jakarta.transaction.Transactional;
-import lombok.*;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -16,8 +14,6 @@ import java.util.NoSuchElementException;
  * Service class for managing Person entities.
  */
 @Service
-@Getter
-@Setter
 public class PersonService {
 
     private PersonRepository personRepository;
@@ -42,12 +38,12 @@ public class PersonService {
     @Transactional
     public Person createPerson(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be null or empty");
         }
 
         Person person = Person.builder()
-                .name(name)
-                .build();
+            .name(name)
+            .build();
 
         return personRepository.save(person);
     }
@@ -58,8 +54,13 @@ public class PersonService {
      * @return a list of all persons
      */
     public List<Person> getPersons(){
-        return personRepository.findAll();
+        List<Person> persons = personRepository.findAll();
+        if (persons.isEmpty()) {
+            throw new NoSuchElementException("No persons found");
+        }
+        return persons;
     }
+    
 
     /**
      * Retrieves a person by their ID.
