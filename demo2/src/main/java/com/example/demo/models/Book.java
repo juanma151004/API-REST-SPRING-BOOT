@@ -1,48 +1,47 @@
 package com.example.demo.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import lombok.*;
+
 import jakarta.persistence.*;
 
-// Define the Book entity
+/**
+ * Represents a book entity in the system.
+ * This entity is mapped to the "books" table in the database.
+ */
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "books")
 public class Book {
-    // Define the primary key with auto-increment strategy
+    
+    /**
+     * The unique identifier for a book.
+     * It is auto-generated using an identity strategy.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Define the title column with constraints
-    @Column(nullable = false, length = 100)
+    /**
+     * The title of the book.
+     * This field is required (non-null) and has a maximum length of 255 characters.
+     */
+    @Column(nullable = false, length = 255)
     private String title;
 
-    // Define the many-to-one relationship with Person entity
+    /**
+     * The person who owns or is associated with this book.
+     * This is a many-to-one relationship, linking books to a person entity.
+     * If the associated person is deleted, the "person_id" in this table is set to NULL.
+     * A foreign key constraint is applied to ensure referential integrity.
+     */
     @ManyToOne
-    @JoinColumn(name = "person_id", nullable = true)
+    @JoinColumn(name = "person_id", referencedColumnName = "id", 
+                foreignKey = @ForeignKey(name = "fk_books_people"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Person person;
-
-    // Getter and Setters
-    public Long getId() {
-        return id;
-    }
-
-   
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
 }

@@ -1,43 +1,44 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.List;
 
-@Entity // Specifies that the class is an entity and is mapped to a database table
-@Table(name = "people") // Specifies the name of the database table to be used for mapping
+/**
+ * Represents a person entity in the system.
+ * This entity is mapped to the "people" table in the database.
+ */
+@Entity
+@Table(name = "people")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Person {
-    @Id // Specifies the primary key of an entity
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Provides the specification of generation strategies for the values of primary keys
+
+    /**
+     * The unique identifier for a person.
+     * It is auto-generated using an identity strategy.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100) // Specifies the mapped column for a persistent property or field
+    /**
+     * The name of the person.
+     * This field is required (non-null) and has a maximum length of 255 characters.
+     */
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true) // Specifies a one-to-many relationship with another entity
-    private List<Book> lendedBooks;
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Book> getLendedBooks() {
-        return lendedBooks;
-    }
-
-    public void setLendedBooks(List<Book> lendedBooks) {
-        this.lendedBooks = lendedBooks;
-    }
+    /**
+     * A list of books associated with this person.
+     * This relationship is managed through the "person" field in the Book entity.
+     * Cascade operations are enabled, and orphan removal is set to true.
+     * The @ToString.Exclude annotation prevents infinite recursion in toString() calls.
+     */
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Book> books;
 }

@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.models.Book;
-import com.example.demo.repository.Repository;
+import com.example.demo.repository.BookRepository;
 
 @RestController
 @RequestMapping("/demo/books")
 public class BookController {
 
     @Autowired
-    private Repository repo;
+    private BookRepository repo;
 
     // Endpoint to return a simple "Hello world" message
     @GetMapping
