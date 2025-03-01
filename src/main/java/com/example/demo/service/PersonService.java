@@ -1,18 +1,77 @@
 package com.example.demo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.models.Person;
 import com.example.demo.repository.PersonRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.*;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
+/**
+ * Service class for managing Person entities.
+ */
 @Service
 @Getter
 @Setter
 public class PersonService {
+
     private PersonRepository personRepository;
 
-    public PersonRepository getPersonRepository() {
-        return personRepository;
+    /**
+     * Constructs a PersonService with the specified PersonRepository.
+     * 
+     * @param personRepository the repository for Person entities
+     */
+    @Autowired
+    public PersonService(PersonRepository personRepository){
+        this.personRepository = personRepository;
     }
 
+     /**
+     * Creates and saves a new Person with the given name.
+     *
+     * @param name the name of the person to be created
+     * @return the created Person object
+     * @throws IllegalArgumentException if the name is null or empty
+     */
+    @Transactional
+    public Person createPerson(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+
+        Person person = Person.builder()
+                .name(name)
+                .build();
+
+        return personRepository.save(person);
+    }
+
+    /**
+     * Retrieves all persons from the repository.
+     * 
+     * @return a list of all persons
+     */
+    public List<Person> getPersons(){
+        return personRepository.findAll();
+    }
+
+    /**
+     * Retrieves a person by their ID.
+     * 
+     * @param id the ID of the person to retrieve
+     * @return the Person object if found
+     * @throws NoSuchElementException if the person with the given ID is not found
+     */
+    public Person getPersonById(Long id){
+        return personRepository.findById(id)
+        .orElseThrow(
+            () -> new NoSuchElementException("Person with id: " + id + " was not found")
+        );
+    }
 }
