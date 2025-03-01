@@ -44,8 +44,8 @@ public class PersonController {
      * @return the created Person object
      */
     @PostMapping
-    public Person createPerson(@RequestBody Person person) {
-        return personService.createPerson(person.getName());
+    public Person createPerson(@RequestBody String name) {
+        return personService.createPerson(name);
     }
 
 }
