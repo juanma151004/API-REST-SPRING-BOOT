@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -38,11 +37,14 @@ public class Person {
 
     /**
      * A list of books associated with this person.
-     * This relationship is managed through the "person" field in the Book entity.
-     * Cascade operations are enabled, and orphan removal is set to true.
-     * The @ToString.Exclude annotation prevents infinite recursion in toString() calls.
+     * 
+     * - If a person is deleted, all their books are also deleted (`CascadeType.REMOVE`).
+     * - `orphanRemoval = true` ensures that if a book is removed from the list, it is deleted from the database.
+     * - `@ToString.Exclude` prevents infinite recursion in `toString()` calls.
+     * - `@EqualsAndHashCode.Exclude` prevents infinite loops in object comparisons.
      */
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Book> books;
 }

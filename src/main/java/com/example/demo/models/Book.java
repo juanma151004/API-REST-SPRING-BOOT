@@ -2,12 +2,9 @@ package com.example.demo.models;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import lombok.*;
-
 import jakarta.persistence.*;
 
 /**
@@ -19,7 +16,7 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "books")
 public class Book {
     
@@ -44,9 +41,11 @@ public class Book {
      * If the associated person is deleted, the "person_id" in this table is set to NULL.
      * A foreign key constraint is applied to ensure referential integrity.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", referencedColumnName = "id", 
                 foreignKey = @ForeignKey(name = "fk_books_people"))
     @OnDelete(action = OnDeleteAction.SET_NULL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Person person;
 }
