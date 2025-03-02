@@ -27,7 +27,7 @@ Endpoint:
 
 POST /demo/persons
 
-![Postman_figure1](./assets/figure_2.jpg)
+![Postman_figure1](./assets/create.jpg)
 
 Description:
 Creates a new person in the library system.
@@ -38,12 +38,9 @@ Request Body:
   "name": "Cristiano Ronaldo"
 }
 
-Response:
+verify:
 
-{
-  "message": "Person created successfully",
-  "id": 3
-}
+![Postman_figure1](./assets/verify.jpg)
 
 📌 DELETE: Remove a person by ID
 

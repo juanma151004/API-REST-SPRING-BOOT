@@ -2,22 +2,24 @@ package com.example.demo.models;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.*;
 
 /**
  * Represents a book entity in the system.
  * This entity is mapped to the "books" table in the database.
  */
 @Entity
-@Data
-@NoArgsConstructor
+@Table(name = "books")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // Ensures JPA compatibility
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@Table(name = "books")
 public class Book {
     
     /**
@@ -39,12 +41,12 @@ public class Book {
      * The person who owns or is associated with this book.
      * This is a many-to-one relationship, linking books to a person entity.
      * If the associated person is deleted, the "person_id" in this table is set to NULL.
-     * A foreign key constraint is applied to ensure referential integrity.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", referencedColumnName = "id", 
-                foreignKey = @ForeignKey(name = "fk_books_people"))
+                foreignKey = @ForeignKey(name = "fk_books_people"), nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JsonBackReference  // Prevents infinite recursion in JSON serialization
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Person person;
