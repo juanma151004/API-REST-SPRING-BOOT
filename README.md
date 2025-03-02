@@ -21,6 +21,13 @@ GET /demo/person
 Description:
 Retrieves a list of all people registered in the system.
 
+GET /demo/person/id
+
+![Postman_figure1](./assets/books.jpg)
+
+Description:
+Retrieves a book instance.
+
 📌 POST: Create a new person
 
 Endpoint:

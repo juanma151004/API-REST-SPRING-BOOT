@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
