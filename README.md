@@ -8,6 +8,10 @@ Base URL
 
 http://localhost:9090/demo/persons
 
+or
+
+http://localhost:9090/demo/books
+
 📌 GET: Retrieve all persons
 
 Endpoint:
@@ -23,7 +27,7 @@ Retrieves a list of all people registered in the system.
 
 GET /demo/person/id
 
-![Postman_figure1](./assets/books.jpg)
+![Postman_figure1](./assets/book.jpg)
 
 Description:
 Retrieves a book instance.
