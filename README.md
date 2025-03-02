@@ -2,6 +2,12 @@ Library API - Person Endpoints 📚
 
 This API provides operations to manage persons in the library system.
 
+Database Schema:
+
+The image shows a database schema with two tables: books and people. The books table contains id (book ID), title (book title), and person_id (a foreign key linking to the people table). The people table has id (person ID) and name (person's name). The relationship indicates that each book is associated with a person, likely the author.
+
+![Postman_figure1](./assets/schema.jpg)
+
 Postman Test:
 
 Base URL
@@ -25,7 +31,7 @@ GET /demo/person
 Description:
 Retrieves a list of all people registered in the system.
 
-GET /demo/person/id
+GET /demo/book/id
 
 ![Postman_figure1](./assets/book.jpg)
 
@@ -53,7 +59,19 @@ verify:
 
 ![Postman_figure1](./assets/verify.jpg)
 
-📌 DELETE: Remove a person by ID
+POST /demo/books
+
+Description:
+
+Creates a new book in the library system.
+
+![Postman_figure1](./assets/create_book.jpg)
+
+Request body: 
+{
+    "title": "{{$randomFullName}}",
+    "person_id": 4
+}
 
 Endpoint:
 
