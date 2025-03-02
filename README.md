@@ -6,7 +6,7 @@ Postman Test:
 
 Base URL
 
-http://yourserver.com/demo/persons
+http://localhost:9090/demo/persons
 
 📌 GET: Retrieve all persons
 
