@@ -52,3 +52,6 @@ logs/
 hs_err_pid*
 *.swp
 *.swo
+
+#Environment files
+.env
